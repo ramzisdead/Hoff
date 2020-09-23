@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HeaderTVCellDelegate {
-    func showSortAlert()
+    func showSortAlert(sortButtonTitle: @escaping (String) -> ())
 }
 
 
@@ -41,7 +41,10 @@ class HeaderTVCell: UITableViewCell {
     }
     
     @IBAction func sortButtonAction(_ sender: Any) {
-        delegate?.showSortAlert()
+        delegate?.showSortAlert(sortButtonTitle: { [weak self] title in
+            guard let self = self else { return }
+            self.sortButton.setTitle(title, for: .normal)
+        })
     }
     
     

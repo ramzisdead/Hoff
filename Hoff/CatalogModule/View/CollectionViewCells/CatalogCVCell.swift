@@ -10,10 +10,6 @@ import UIKit
 import SDWebImage
 import Cosmos
 
-protocol SetFavotiteDelegate {
-    func setFavorite(index: Int, senderCell: CatalogCVCell)
-}
-
 
 class CatalogCVCell: UICollectionViewCell {
     
@@ -29,16 +25,18 @@ class CatalogCVCell: UICollectionViewCell {
     
     @IBOutlet weak var imageWidthConstraint: NSLayoutConstraint!
     
-    var delegate: SetFavotiteDelegate?
-    var index: IndexPath?
-    
+    var currentItem: CatalogItem?
     
     func setData(item: CatalogItem) {
         
+        currentItem = item
+        
+        // Изображения
         let imageURL = URL(string: item.image)
         imageView.sd_setImage(with: imageURL, completed: nil)
         imageWidthConstraint.constant = self.frame.width
         
+        // Плашка лучшая цена / скидка
         self.discountLabel.layer.cornerRadius = 2
         self.discountLabel.textColor = .white
         
@@ -64,18 +62,32 @@ class CatalogCVCell: UICollectionViewCell {
             }
         }
         
+        // Все остальные поля
         self.priceLabel.text = String(item.prices.new)
         self.titleLabel.text = item.name
         self.descriptionLabel.text = item.statusText
         self.cosmosView.rating = item.rating
         self.cosmosView.text = "(\(item.numberOfReviews))"
+        
+        // Проверка наличия в избранном
+        if Favorite.shared.isFavorite(item: item) {
+            favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "heart-empty"), for: .normal)
+        }
     }
     
     
+    // Кнопка избранного
     @IBAction func favoriteButtonAction(_ sender: Any) {
         
-        guard let index = index?.item else { return }
-        delegate?.setFavorite(index: index, senderCell: self)
+        guard let currentItem = self.currentItem else { return }
+        
+        if Favorite.shared.checkFavoriteOnClick(item: currentItem) {
+            favoriteButton.setImage(UIImage(named: "heart-filled"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "heart-empty"), for: .normal)
+        }
     }
     
 }

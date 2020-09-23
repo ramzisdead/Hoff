@@ -26,11 +26,22 @@ protocol CatalogViewProtocol: class {
 protocol CatalogPresenterProtocol: class {
     init(view: CatalogViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol)
     var catalog: Catalog? { get set }
+    var sortBy: SortTypes { get set }
     func getItems()
+    func reloadData()
+}
+
+
+enum SortTypes: String {
+    case popular = "popular"
+    case price = "price"
 }
 
 
 class CatalogPresenter: CatalogPresenterProtocol {
+    
+    
+    
     
     let view: CatalogViewProtocol
     let networkService: NetworkServiceProtocol
@@ -38,10 +49,17 @@ class CatalogPresenter: CatalogPresenterProtocol {
     var catalog: Catalog? // Массив для последующего заполнения из getCatalog()
     
     // Пагинация
-    var offset = "0" // Количество, которое я уже загрузил
-    var limit = "10" // Количество, которое я запрашиваю с сервера
-    var isLoading = false
-    var allLoaded = false
+    private var isLoading = false
+    private var allLoaded = false
+    
+    private var offset = "0" // Отступ от нулевого элемента. Количество, которое я уже загрузил
+    private var limit = "10" // Количество, которое я запрашиваю с сервера в данный момент
+    
+    var sortBy: SortTypes = .popular {
+        didSet {
+            reloadData()
+        }
+    }
     
     
     required init(view: CatalogViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) {
@@ -53,20 +71,19 @@ class CatalogPresenter: CatalogPresenterProtocol {
     
     
     func getItems() {
-        guard !allLoaded || !isLoading  else { return }
+        // Если allLoaded == false и isLoading == false, тогда выполняем функцию
+        guard !allLoaded && !isLoading  else { return }
         
-        // Просто showLoading не работает
-        // Т.к. функция вызывается при инициализации презентера и у view еще нет его элементов
-        if catalog == nil {
-            //self.view.showLoading()
-        } else {
-            //self.view.showPageLoading()
-        }
-        
+        // На время выполнения функции ставим isLoading == true
         self.isLoading = true
-        self.offset = String(Int(self.offset)! + Int(self.limit)!)
         
-        self.allLoaded = networkService.getCatalog(limit: limit, offset: offset, isLoading: isLoading, isAllLoaded: allLoaded, onSuccess: { (catalog) in
+        // Задаем значение allLoaded путем вызова функции из networkService
+        self.allLoaded = networkService.getCatalog(limit: limit, offset: offset, sortBy: sortBy.rawValue, onSuccess: { [weak self] (catalog) in
+            
+            // Устанавливаем слабую ссылку на self для предотвращения утечки памяти
+            // Прописываем проверку на существование self с помощью guard
+            guard let self = self else { return }
+            
             // Если каталог не инициализирован, то инициализировать. Иначе пополнить массив итемов
             if self.catalog == nil {
                 self.catalog = catalog
@@ -79,11 +96,20 @@ class CatalogPresenter: CatalogPresenterProtocol {
                 self.view.successLoadItems()
                 //self.view.hidePageLoading()
             }
+            self.isLoading = false
         }, onFailure: { (error) in
             print(error)
+            self.isLoading = false
         })
         
-        self.isLoading = false
+        // Прибавляем к общему количетсву загружженых элементов новые загружаемые
+        self.offset = String(Int(self.offset)! + Int(self.limit)!)
     }
     
+    
+    func reloadData() {
+        self.catalog?.items = []
+        self.offset = "0"
+        self.getItems()
+    }
 }

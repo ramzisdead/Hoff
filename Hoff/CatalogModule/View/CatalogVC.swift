@@ -20,6 +20,8 @@ class CatalogVC: UIViewController, CatalogTVCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showLoading()
+        
         self.navigationController?.navigationBar.tintColor = .black
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -59,12 +61,10 @@ extension CatalogVC: CatalogViewProtocol {
     
     func showLoading() {
         activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
     }
     
     func hideLoading() {
         activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
     }
     
     func successLoadItems() {
@@ -86,32 +86,27 @@ extension CatalogVC: CatalogViewProtocol {
 
 extension CatalogVC: HeaderTVCellDelegate {
     
-    func showSortAlert() {
+    func showSortAlert(sortButtonTitle: @escaping (String) -> ()) {
         
         let alert = UIAlertController(title: "Сортировка", message: "", preferredStyle: .alert)
         
-        let popularAction = UIAlertAction(title: "Сначала популярные", style: .default) { (f) in
-            self.presenter.catalog?.items.sort(by: {$0.numberOfReviews > $1.numberOfReviews})
-            NotificationCenter.default.post(name: .setSortButtonPopular, object: nil)
+        let popular = "Сначала популярные"
+        let popularAction = UIAlertAction(title: popular, style: .default) { (f) in
+            self.presenter.sortBy = .popular
+            sortButtonTitle(popular)
             NotificationCenter.default.post(name: .reloadCatalogCV, object: nil)
         }
         
-        let lowPriceAction = UIAlertAction(title: "Сначала дешевые", style: .default) { (f) in
-            self.presenter.catalog?.items.sort(by: {$0.prices.new < $1.prices.new})
-            NotificationCenter.default.post(name: .setSortButtonLowPrice, object: nil)
+        let hightPrice = "Сначала дорогие"
+        let hightPriceAction = UIAlertAction(title: hightPrice, style: .default) { (f) in
             NotificationCenter.default.post(name: .reloadCatalogCV, object: nil)
-        }
-        
-        let hightPriceAction = UIAlertAction(title: "Сначала дорогие", style: .default) { (f) in
-            self.presenter.catalog?.items.sort(by: {$0.prices.new > $1.prices.new})
-            NotificationCenter.default.post(name: .setSortButtonHightPrice, object: nil)
-            NotificationCenter.default.post(name: .reloadCatalogCV, object: nil)
+            sortButtonTitle(hightPrice)
+            self.presenter.sortBy = .price
         }
         
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         
         alert.addAction(popularAction)
-        alert.addAction(lowPriceAction)
         alert.addAction(hightPriceAction)
         alert.addAction(cancelAction)
         

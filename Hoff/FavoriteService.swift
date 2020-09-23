@@ -11,16 +11,15 @@ import Foundation
 
 final class Favorite {
     
-    // Cингл тон
+    // Singletone
     static let shared = Favorite()
     
-    
-    // Cингл тон
     private let key = "ru.diit.hoff_test"
     private var catalog: [CatalogItem] = []
     
     
     // MARK: - Init
+    
     private init() {
         guard
             let data = UserDefaults.standard.data(forKey: key),
@@ -31,6 +30,7 @@ final class Favorite {
     
     
     // MARK: - Public methods
+    
     func isFavorite(item: CatalogItem?) -> Bool {
         
         if let _ = catalog.firstIndex(where: { $0.id == item?.id}) {
@@ -42,16 +42,17 @@ final class Favorite {
     
     
     func checkFavoriteOnClick(item: CatalogItem) -> Bool {
+        
         if let index = catalog.firstIndex(where: { $0.id == item.id}) {
             catalog.remove(at: index)
             
             //обновление данных юзерфалс
             synchronize()
-            return true
+            return false
         } else {
             catalog.append(item)
             synchronize()
-            return false
+            return true
         }
     }
     
@@ -62,12 +63,13 @@ final class Favorite {
     }
     
     
-    /*func getFavorites() -> [Catalog] {
+    /*func getFavorites() -> [CatalogItem] {
         return catalog
     }*/
     
     
     // MARK: - Private methods
+    
     private func synchronize() {
         
         //обновление данных

@@ -13,7 +13,7 @@ protocol CatalogTVCellDelegate {
 }
 
 
-class CatalogTVCell: UITableViewCell, SetFavotiteDelegate {
+class CatalogTVCell: UITableViewCell {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -36,13 +36,9 @@ class CatalogTVCell: UITableViewCell, SetFavotiteDelegate {
     // Перезагрузка CollectionView
     @objc func reloadСollectionView() {
         collectionView.reloadData()
+        collectionView.scrollsToTop = true
     }
     
-    // SetFavotiteDelegate
-    func setFavorite(index: Int, senderCell: CatalogCVCell) {
-        
-    }
-
 }
 
 
