@@ -29,6 +29,9 @@ class RelatedTVCell: UITableViewCell {
 
 
 
+
+// MARK: - Cell Configurator
+
 class RelatedTVCellConfigurator: ConfigurableTableViewCellProtocol {
     
     var delegate: CatalogTVCellDelegate

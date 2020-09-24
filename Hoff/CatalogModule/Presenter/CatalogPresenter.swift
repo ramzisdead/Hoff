@@ -16,7 +16,7 @@ protocol CatalogViewProtocol: class {
     func showLoading()
     func hideLoading()
     
-    func successLoadItems()
+    func reloadCollectionView()
     
     func showPageLoading()
     func hidePageLoading()
@@ -27,6 +27,7 @@ protocol CatalogPresenterProtocol: class {
     init(view: CatalogViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol)
     var catalog: Catalog? { get set }
     var sortBy: SortTypes { get set }
+    var allLoaded: Bool { get }
     func getItems()
     func reloadData()
 }
@@ -49,8 +50,7 @@ class CatalogPresenter: CatalogPresenterProtocol {
     var catalog: Catalog? // Массив для последующего заполнения из getCatalog()
     
     // Пагинация
-    private var isLoading = false
-    private var allLoaded = false
+    var allLoaded = false
     
     private var offset = "0" // Отступ от нулевого элемента. Количество, которое я уже загрузил
     private var limit = "10" // Количество, которое я запрашиваю с сервера в данный момент
@@ -72,16 +72,12 @@ class CatalogPresenter: CatalogPresenterProtocol {
     
     func getItems() {
         // Если allLoaded == false и isLoading == false, тогда выполняем функцию
-        guard !allLoaded && !isLoading  else { return }
-        
-        // На время выполнения функции ставим isLoading == true
-        self.isLoading = true
+        guard !allLoaded else { return }
         
         // Задаем значение allLoaded путем вызова функции из networkService
         self.allLoaded = networkService.getCatalog(limit: limit, offset: offset, sortBy: sortBy.rawValue, onSuccess: { [weak self] (catalog) in
             
             // Устанавливаем слабую ссылку на self для предотвращения утечки памяти
-            // Прописываем проверку на существование self с помощью guard
             guard let self = self else { return }
             
             // Если каталог не инициализирован, то инициализировать. Иначе пополнить массив итемов
@@ -92,14 +88,10 @@ class CatalogPresenter: CatalogPresenterProtocol {
                 self.view.hideLoading()
             } else {
                 self.catalog?.items += catalog.items
-                
-                self.view.successLoadItems()
-                //self.view.hidePageLoading()
+                self.view.reloadCollectionView()
             }
-            self.isLoading = false
         }, onFailure: { (error) in
             print(error)
-            self.isLoading = false
         })
         
         // Прибавляем к общему количетсву загружженых элементов новые загружаемые

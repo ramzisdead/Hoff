@@ -66,7 +66,8 @@ class HeaderTVCell: UITableViewCell {
 
 
 
-// MARK: - Конфигуратор ячейки
+
+// MARK: - Cell Configurator
 
 class HeaderTVCellConfigurator: ConfigurableTableViewCellProtocol {
     

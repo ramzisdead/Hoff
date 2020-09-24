@@ -27,6 +27,9 @@
 		891B91FA250B7A7B00D1D0CC /* CatalogVC-ExtensionTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891B91F9250B7A7B00D1D0CC /* CatalogVC-ExtensionTV.swift */; };
 		891B91FC250B7E2600D1D0CC /* ConfigurableTableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891B91FB250B7E2600D1D0CC /* ConfigurableTableViewCellProtocol.swift */; };
 		8950FA63250E7FB6007161EF /* FavoriteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8950FA62250E7FB6007161EF /* FavoriteService.swift */; };
+		8954DF6A251B773C00C6598A /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8954DF68251B773C00C6598A /* LoadingReusableView.swift */; };
+		8954DF6B251B773C00C6598A /* LoadingReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8954DF69251B773C00C6598A /* LoadingReusableView.xib */; };
+		8954DF74251B8E9C00C6598A /* CatalogCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8954DF72251B8E9C00C6598A /* CatalogCVCell.xib */; };
 		8983BA072500E1FC005107C0 /* CatalogPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8983BA062500E1FC005107C0 /* CatalogPresenter.swift */; };
 		8983BA0A2501257C005107C0 /* Catalog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8983BA092501257C005107C0 /* Catalog.storyboard */; };
 		89AF85BD2513CF91007401EE /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AF85BC2513CF91007401EE /* NotificationNames.swift */; };
@@ -56,6 +59,9 @@
 		891B91F9250B7A7B00D1D0CC /* CatalogVC-ExtensionTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CatalogVC-ExtensionTV.swift"; sourceTree = "<group>"; };
 		891B91FB250B7E2600D1D0CC /* ConfigurableTableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableTableViewCellProtocol.swift; sourceTree = "<group>"; };
 		8950FA62250E7FB6007161EF /* FavoriteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteService.swift; sourceTree = "<group>"; };
+		8954DF68251B773C00C6598A /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
+		8954DF69251B773C00C6598A /* LoadingReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingReusableView.xib; sourceTree = "<group>"; };
+		8954DF72251B8E9C00C6598A /* CatalogCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CatalogCVCell.xib; sourceTree = "<group>"; };
 		8983BA062500E1FC005107C0 /* CatalogPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogPresenter.swift; sourceTree = "<group>"; };
 		8983BA092501257C005107C0 /* Catalog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Catalog.storyboard; sourceTree = "<group>"; };
 		89AF85BC2513CF91007401EE /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
@@ -191,8 +197,11 @@
 		891B91FE250B7FD800D1D0CC /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				8954DF72251B8E9C00C6598A /* CatalogCVCell.xib */,
 				89FF185325025AAA00C998A7 /* CatalogCVCell.swift */,
 				891B91F1250B760900D1D0CC /* RelatedCVCell.swift */,
+				8954DF69251B773C00C6598A /* LoadingReusableView.xib */,
+				8954DF68251B773C00C6598A /* LoadingReusableView.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -286,6 +295,8 @@
 				890A96F424FF817E00C22AB7 /* LaunchScreen.storyboard in Resources */,
 				890A96F124FF817E00C22AB7 /* Assets.xcassets in Resources */,
 				890A96EF24FF817C00C22AB7 /* Main.storyboard in Resources */,
+				8954DF74251B8E9C00C6598A /* CatalogCVCell.xib in Resources */,
+				8954DF6B251B773C00C6598A /* LoadingReusableView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +362,7 @@
 				8983BA072500E1FC005107C0 /* CatalogPresenter.swift in Sources */,
 				890A96E824FF817C00C22AB7 /* AppDelegate.swift in Sources */,
 				890A96FE24FF86C000C22AB7 /* MainPresenter.swift in Sources */,
+				8954DF6A251B773C00C6598A /* LoadingReusableView.swift in Sources */,
 				890A970324FF886E00C22AB7 /* Router.swift in Sources */,
 				8950FA63250E7FB6007161EF /* FavoriteService.swift in Sources */,
 				890A970524FF8F8800C22AB7 /* NetworkingService.swift in Sources */,

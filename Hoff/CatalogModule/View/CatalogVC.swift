@@ -67,16 +67,16 @@ extension CatalogVC: CatalogViewProtocol {
         activityIndicator.stopAnimating()
     }
     
-    func successLoadItems() {
+    func reloadCollectionView() {
         NotificationCenter.default.post(name: .reloadCatalogCV, object: nil)
     }
     
+    // Крутилка пагинации старт
     func showPageLoading() {
-        // Крутилка пагинации старт
     }
     
+    // Крутилка пагинации стоп
     func hidePageLoading() {
-        // Крутилка пагинации стоп 
     }
 }
 
