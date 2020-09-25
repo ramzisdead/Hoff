@@ -30,6 +30,31 @@ class RelatedTVCell: UITableViewCell {
 
 
 
+extension RelatedTVCell: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return delegate?.presenter.catalog?.relatedCategories.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "relatedCVCell", for: indexPath) as? RelatedCVCell {
+            if let text = delegate?.presenter.catalog?.relatedCategories[indexPath.item].name {
+                
+                itemCell.titleLabel.text = text
+                itemCell.layer.cornerRadius = 4
+                
+                return itemCell
+            }
+        }
+        return UICollectionViewCell()
+    }
+    
+}
+
+
+
+
 // MARK: - Cell Configurator
 
 class RelatedTVCellConfigurator: ConfigurableTableViewCellProtocol {
@@ -64,28 +89,3 @@ class RelatedTVCellConfigurator: ConfigurableTableViewCellProtocol {
     }
     
 }
-
-
-
-extension RelatedTVCell: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return delegate?.presenter.catalog?.relatedCategories.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "relatedCVCell", for: indexPath) as? RelatedCVCell {
-            if let text = delegate?.presenter.catalog?.relatedCategories[indexPath.item].name {
-                
-                itemCell.titleLabel.text = text
-                itemCell.layer.cornerRadius = 4
-                
-                return itemCell
-            }
-        }
-        return UICollectionViewCell()
-    }
-    
-}
-

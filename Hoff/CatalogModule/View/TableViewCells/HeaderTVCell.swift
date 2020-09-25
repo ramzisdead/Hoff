@@ -22,16 +22,8 @@ class HeaderTVCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        // Отслеживание нотификаций для изменения названия кнопки 
-        NotificationCenter.default.addObserver(self, selector: #selector(setSortButtonPopular), name: .setSortButtonPopular, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(setSortButtonLowPrice), name: .setSortButtonLowPrice, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(setSortButtonHightPrice), name: .setSortButtonHightPrice, object: nil)
     }
     
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

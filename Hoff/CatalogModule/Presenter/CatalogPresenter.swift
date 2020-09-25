@@ -41,9 +41,6 @@ enum SortTypes: String {
 
 class CatalogPresenter: CatalogPresenterProtocol {
     
-    
-    
-    
     let view: CatalogViewProtocol
     let networkService: NetworkServiceProtocol
     let router: RouterProtocol

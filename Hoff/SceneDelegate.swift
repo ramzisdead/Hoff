@@ -23,6 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
         router.initialViewController()
         
+        // Cветлый интерфейс всегда
+        window?.overrideUserInterfaceStyle = .light
+        
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
