@@ -38,22 +38,7 @@ class HeaderTVCell: UITableViewCell {
             self.sortButton.setTitle(title, for: .normal)
         })
     }
-    
-    
-    // Функции для изменения названия кнопки. Вызываются через NotificationCenter
-    
-    @objc func setSortButtonPopular() {
-        self.sortButton.setTitle("Сначала популярные", for: .normal)
-    }
-    
-    @objc func setSortButtonLowPrice() {
-        self.sortButton.setTitle("Сначала дешевые", for: .normal)
-    }
-    
-    @objc func setSortButtonHightPrice() {
-        self.sortButton.setTitle("Сначала дорогие", for: .normal)
-    }
-    
+
 }
 
 
